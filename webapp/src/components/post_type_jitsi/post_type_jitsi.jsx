@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import {FormattedMessage} from 'react-intl';
 
 import {Svgs} from '../../constants';
 
@@ -67,7 +68,13 @@ export default class PostTypeJitsi extends React.PureComponent {
             meetingLink += '?jwt=' + props.meeting_jwt;
         }
 
-        const preText = `${this.props.creatorName} has started a meeting`;
+        const preText = (
+            <FormattedMessage
+                id='jitsi.creator-has-started-a-meeting'
+                defaultMessage='{creator} has started a meeting'
+                values={{creator: this.props.creatorName}}
+            />
+        );
         let untilDate = '';
         if (props.jwt_meeting) {
             let date = moment.unix(props.jwt_meeting_valid_until);
@@ -76,7 +83,15 @@ export default class PostTypeJitsi extends React.PureComponent {
             } else {
                 date = props.jwt_meeting_valid_until;
             }
-            untilDate = (<div style={style.validUntil}>{' Meeting link valid until: '} <b>{date}</b></div>);
+            untilDate = (
+                <div style={style.validUntil}>
+                    <FormattedMessage
+                        id='jitsi.link-valid-until'
+                        defaultMessage='Meeting link valid until: '
+                    />
+                    <b>{date}</b>
+                </div>
+            );
         }
 
         const content = (
@@ -92,7 +107,10 @@ export default class PostTypeJitsi extends React.PureComponent {
                         style={style.buttonIcon}
                         dangerouslySetInnerHTML={{__html: Svgs.VIDEO_CAMERA_3}}
                     />
-                    {'JOIN MEETING'}
+                    <FormattedMessage
+                        id='jitsi.join-meeting'
+                        defaultMessage='JOIN MEETING'
+                    />
                 </a>
             </div>
         );
@@ -100,7 +118,10 @@ export default class PostTypeJitsi extends React.PureComponent {
         if (props.meeting_personal) {
             subtitle = (
                 <span>
-                    {'Personal Meeting ID (PMI): '}
+                    <FormattedMessage
+                        id='jitsi.personal-meeting-id'
+                        defaultMessage='Personal Meeting ID (PMI): '
+                    />
                     <a
                         target='_blank'
                         rel='noopener noreferrer'
@@ -113,7 +134,10 @@ export default class PostTypeJitsi extends React.PureComponent {
         } else {
             subtitle = (
                 <span>
-                    {'Meeting ID: '}
+                    <FormattedMessage
+                        id='jitsi.meeting-id'
+                        defaultMessage='Meeting ID: '
+                    />
                     <a
                         target='_blank'
                         rel='noopener noreferrer'
@@ -125,7 +149,12 @@ export default class PostTypeJitsi extends React.PureComponent {
             );
         }
 
-        let title = 'Jitsi Meeting';
+        let title = (
+            <FormattedMessage
+                id='jitsi.default-title'
+                defaultMessage='Jitsi Meeting'
+            />
+        );
         if (props.meeting_topic) {
             title = props.meeting_topic;
         }
